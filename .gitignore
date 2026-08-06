@@ -1,0 +1,7 @@
+node_modules/
+.next/
+.vercel/
+.env*
+__MACOSX/
+*.log
+.DS_Store
