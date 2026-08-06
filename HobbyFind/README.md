@@ -93,6 +93,4 @@ npm run dev
 
 ## 🌌 피드백
 
-- Email: lim.gadi@gmail.com
-- GitHub: [@lim-hyo-jeong](https://github.com/lim-hyo-jeong)
-- 참고: 저는 본 강의에서 파이널 프로젝트 기획 및 코드 베이스 개발, 수강생을 위한 가이드 제작 및 실습 코치 역할로 참여하였습니다. 
+- Email: kanghj1966@gmail.com
