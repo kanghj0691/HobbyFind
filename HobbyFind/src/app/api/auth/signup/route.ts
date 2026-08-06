@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createUser, authenticateUser, CreateUserData } from '@/lib/auth-utils';
+import { createUser, CreateUserData } from '@/lib/auth-utils';
+import { signupApiSchema } from '@/lib/validations/auth';
 import { z } from 'zod';
-
-const signupSchema = z.object({
-  email: z.string().email('올바른 이메일 형식이 아닙니다.'),
-  username: z.string().min(2, '사용자명은 2자 이상이어야 합니다.').max(20, '사용자명은 20자 이하여야 합니다.'),
-  password: z.string().min(6, '비밀번호는 6자 이상이어야 합니다.'),
-});
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
-    // 입력 데이터 검증
-    const validatedData = signupSchema.parse(body);
+    const validatedData = signupApiSchema.parse(body);
     
     // 사용자 생성
     const user = await createUser(validatedData as CreateUserData);

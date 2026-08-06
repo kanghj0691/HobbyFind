@@ -2,68 +2,54 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User, Mail, Calendar } from 'lucide-react';
+import { Bookmark, Mail, User } from 'lucide-react';
 
 interface UserProfileProps {
-  user: any;
+  name?: string | null;
+  email?: string | null;
   bookmarkCount?: number;
 }
 
-export function UserProfile({ user, bookmarkCount = 0 }: UserProfileProps) {
-  const getInitials = (name: string) => {
-    return name
+export function UserProfile({ name, email, bookmarkCount = 0 }: UserProfileProps) {
+  const getInitials = (value: string) =>
+    value
       .split(' ')
-      .map(word => word.charAt(0))
+      .map((word) => word.charAt(0))
       .join('')
       .toUpperCase()
       .slice(0, 2);
-  };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  const displayName = name || '사용자';
+  const initials = name ? getInitials(name) : email?.charAt(0).toUpperCase() || 'U';
 
   return (
-    <Card className="bg-white shadow-sm">
-      <CardContent className="p-6">
-        <div className="flex items-center space-x-4">
-          <Avatar className="w-16 h-16">
-            <AvatarFallback className="bg-brand-red text-white text-xl font-semibold">
-              {user?.name ? getInitials(user.name) : user?.email?.charAt(0).toUpperCase() || 'U'}
-            </AvatarFallback>
-          </Avatar>
-          
-          <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-2">
-              <User className="w-4 h-4 text-gray-500" />
-              <h2 className="text-xl font-semibold text-neutral-dark">
-                {user?.name || '사용자'}
-              </h2>
-            </div>
-            
-            <div className="flex items-center space-x-2 mb-1">
-              <Mail className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-600">{user?.email}</span>
-            </div>
-            
-            <div className="flex items-center space-x-2">
-              <Calendar className="w-4 h-4 text-gray-500" />
-              <span className="text-gray-600">
-                가입일: {user?.createdAt ? formatDate(user.createdAt) : '정보 없음'}
-              </span>
-            </div>
+    <Card className="rounded-2xl border shadow-sm">
+      <CardContent className="flex items-center gap-4 p-6">
+        <Avatar className="h-16 w-16">
+          <AvatarFallback className="bg-primary text-lg font-semibold text-primary-foreground">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+
+        <div className="flex-1 space-y-1">
+          <div className="flex items-center gap-2">
+            <User className="h-4 w-4 text-description" />
+            <h2 className="text-xl font-semibold text-title">{displayName}</h2>
           </div>
-          
-          <div className="text-right">
-            <div className="text-2xl font-bold text-brand-red">
-              {bookmarkCount}
+          {email && (
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-description" />
+              <span className="text-sm text-body">{email}</span>
             </div>
-            <div className="text-sm text-gray-600">북마크</div>
+          )}
+        </div>
+
+        <div className="text-right">
+          <div className="flex items-center justify-end gap-1 text-2xl font-bold text-primary">
+            <Bookmark className="h-5 w-5 fill-current" />
+            {bookmarkCount}
           </div>
+          <div className="text-sm text-description">북마크</div>
         </div>
       </CardContent>
     </Card>

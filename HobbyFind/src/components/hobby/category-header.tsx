@@ -2,9 +2,14 @@
 
 import { motion } from 'framer-motion';
 
-export function HeroSection() {
+interface CategoryHeaderProps {
+  name: string;
+  description: string;
+}
+
+export function CategoryHeader({ name, description }: CategoryHeaderProps) {
   return (
-    <section className="bg-background py-24 text-center">
+    <section className="border-b border-border bg-background py-16 text-center">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -12,15 +17,15 @@ export function HeroSection() {
           transition={{ duration: 0.25, ease: 'easeOut' }}
           className="text-4xl font-bold text-title sm:text-5xl"
         >
-          당신에게 맞는 새로운 취미를 찾아보세요.
+          {name}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.15, ease: 'easeOut' }}
-          className="mt-4 text-lg text-description"
+          className="mx-auto mt-4 max-w-2xl text-lg text-description"
         >
-          운동 · 지능 · 예술
+          {description}
         </motion.p>
       </div>
     </section>

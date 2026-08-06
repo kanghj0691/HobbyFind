@@ -1,134 +1,638 @@
-# 취미 추천 사이트 UI/UX 종합 디자인 가이드
+# HobbyFind 디자인 가이드 (Design Guide)
 
-⸻
+**Design Reference:** Airbnb Design System & UI Style
+**Framework:** Next.js + Tailwind CSS
 
-## 1. 디자인 시스템 개요 (Design System Overview)
+---
 
-#### 전체 방향성
-- 디자인 스타일: 미니멀 & 직관적(Whitespace 중심), 사용성 극대화, 세련된 여백과 둥근 모서리 적용
-- 레이아웃 패턴: 상단 고정형 Topbar + 카드형 콘텐츠 + 반응형 그리드
-- 타이포그래피: San-serif 폰트(한국어는 Noto Sans KR 추천)
-- 아이콘 스타일: Outline + Fill 혼합(상태 변화 시 Fill 적용)
-- UI 톤앤매너: 부드럽고 친근하면서도 현대적인 느낌
+# 1. 디자인 시스템 개요 (Design System Overview)
 
-#### 핵심 패턴
-- 여백과 그리드 비율로 콘텐츠 가독성 강화
-- 카드 hover 시 미세 확대(Scale) + 그림자 효과
-- CTA 버튼은 Primary Color로 강하게 시각적 집중
-- 필터/검색 UI는 명확하게 영역 분리
+## 1.1 브랜드 아이덴티티
 
-⸻
+### 브랜드 키워드
 
-## 2. TailwindCSS 색상 팔레트 (Color Palette for TailwindCSS)
+* Simple
+* Friendly
+* Clean
+* Discover
+* Comfortable
 
-| 역할          | HEX 코드 | Tailwind Class                         | 사용 예시                                |
-|---------------|----------|----------------------------------------|------------------------------------------|
-| Primary       | #FF385C  | `bg-[#FF385C]` `text-[#FF385C]`        | 주요 CTA 버튼, 활성 상태, 포인트 텍스트 |
-| Secondary     | #008489  | `bg-[#008489]` `text-[#008489]`        | 보조 버튼, 링크, 강조 요소              |
-| Accent        | #FFD700  | `bg-[#FFD700]` `text-[#FFD700]`        | 북마크 아이콘, 차트 포인트 컬러          |
-| Neutral Light | #F7F7F7  | `bg-[#F7F7F7]`                         | 전체 페이지 배경, 카드 배경             |
-| Neutral Dark  | #222222  | `text-[#222222]`                       | 본문 텍스트, 제목                       |
-| Border Gray   | #E5E5E5  | `border-[#E5E5E5]`                     | 카드 구분선, 폼 테두리                  |
-| Success       | #4CAF50  | `bg-[#4CAF50]`                         | 성공 메시지, 긍정 상태                  |
-| Error         | #F44336  | `bg-[#F44336]`                         | 오류 메시지, 경고 UI                    |
+HobbyFind는 다양한 취미를 **부담 없이 탐색하고 저장할 수 있는 경험**을 제공하는 서비스이다. 전체 UI는 Airbnb의 디자인 철학처럼 **넓은 여백, 둥근 모서리, 부드러운 그림자, 직관적인 인터랙션**을 중심으로 구성한다.
 
+---
 
-⸻
+## 1.2 UI 톤앤매너
 
-## 3. 페이지 구현 가이드 (Page Implementations)
+| 항목      | 가이드                 |
+| ------- | ------------------- |
+| 디자인 스타일 | 미니멀 & 카드 중심         |
+| 분위기     | 밝고 따뜻함              |
+| 여백      | 넉넉한 Spacing 사용      |
+| 아이콘     | Outline 스타일         |
+| 카드      | 둥근 Radius + Shadow  |
+| 애니메이션   | 자연스럽고 짧은 Transition |
+| 버튼      | Rounded + Filled    |
 
-#### 3.1 루트 페이지 / (홈)
+---
 
-- 목적: 취미 탐색, 카테고리 필터링, 서비스 소개 제공
-- 핵심 컴포넌트:
-	- Topbar (로고, 카테고리 메뉴, 로그인/마이페이지 버튼)
-	- Hero Section (사이트 소개 배너 + CTA)
-	- Category Filter Tabs
-	- HobbyCard Grid
-	- Pagination / Infinite Scroll
+## 1.3 키 비주얼 가이드
 
-- 레이아웃 구조:
-	- 상단: Topbar 고정
-	- Hero: 심플한 사이트 소개 문구
-	- 콘텐츠: 3~4열 카드 그리드 (모바일 1열, 태블릿 2열)
+### Hero
 
-- 예시 이미지
-https://picsum.photos/1200/800?random=10
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-#### 3.2 로그인 페이지 /login
+당신에게 맞는 새로운 취미를 찾아보세요.
 
-- 목적: 계정 인증
-- 핵심 컴포넌트:
-  - 로그인 폼 (아이디, 비밀번호 입력)
-  - CTA 버튼 (로그인)
-  - 보조 링크 (회원가입)
-- 레이아웃 구조:
-  - 중앙 정렬 폼, 최대 폭 400px
-  - 모바일에서는 전체 폭 인풋
-- 예시 이미지  
-  ![로그인 예시](https://picsum.photos/1200/800?random=20)
+운동 · 지능 · 예술
 
-#### 3.3 회원가입 페이지 /signup
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
-- 목적: 신규 회원 등록
-- 핵심 컴포넌트:
-  - 회원가입 폼 (아이디, 비밀번호, 비밀번호 확인)
-  - 가입하기 버튼
-- 레이아웃 구조:
-  - 중앙 정렬 폼, 최대 폭 400px
-  - 모바일에서는 전체 폭 인풋
-- 예시 이미지  
-  ![회원가입 예시](https://picsum.photos/1200/800?random=21)
+* 충분한 상하 여백 (`py-24`)
+* 중앙 정렬
+* 심플한 타이포그래피
+* 배경은 White
 
-#### 3.4 마이페이지 /mypage
+---
 
-- 목적: 북마크 목록과 카테고리별 통계 확인
-- 핵심 컴포넌트:
-  - 북마크 카드 리스트
-  - 카테고리별 통계 차트(파이차트)
-  - 북마크 해제 버튼
-- 레이아웃 구조:
-  - 상단: Topbar 고정
-  - 콘텐츠: 좌측 북마크 카드 리스트 + 우측 통계 차트 (모바일에서는 세로 배치)
-- 예시 이미지  
-  ![마이페이지 예시](https://picsum.photos/1200/800?random=11)
+# 2. TailwindCSS 색상 팔레트 (Color Palette)
 
+## 2.1 브랜드 컬러
 
-⸻
+| 용도            | 색상      | Tailwind   |
+| ------------- | ------- | ---------- |
+| Primary       | #FF385C | `rose-500` |
+| Primary Hover | #E11D48 | `rose-600` |
+| Secondary     | #F7F7F7 | `gray-100` |
+| Accent        | #00A699 | `teal-500` |
 
-## 4. 레이아웃 컴포넌트 (Layout Components)
+---
 
-| 컴포넌트       | 적용 라우트     | 주요 요소                              | 반응형 동작                          |
-|----------------|----------------|---------------------------------------|--------------------------------------|
-| Topbar         | 모든 페이지     | 로고, 카테고리 메뉴, 로그인/마이페이지 버튼 | 모바일: 햄버거 메뉴                   |
-| Card Grid      | 홈, 마이페이지 | 취미 카드 목록                         | 모바일 1열, 태블릿 2열, 데스크톱 3~4열 |
-| Category Tabs  | 홈, 카테고리 페이지 | 필터 버튼                           | 가로 스크롤 가능                      |
+## 2.2 Neutral
 
+| 용도         | 색상       |
+| ---------- | -------- |
+| Background | white    |
+| Surface    | gray-50  |
+| Border     | gray-200 |
+| Divider    | gray-100 |
 
-⸻
+---
 
-## 5. 상호작용 패턴 (Interaction Patterns)
-	- Hover 효과: 카드 이미지 확대(scale-105) + 그림자(shadow-lg) 강조
-	- 북마크 토글: 클릭 시 즉시 색상 변경(Primary ↔ Gray) + 토스트 메시지
-	- 폼 입력 검증: 실시간 오류 표시(빨간 테두리 + 안내문구)
-	- 로딩 상태: Skeleton UI 적용
-	- 반응형 필터 메뉴: 모바일에서는 슬라이드형 메뉴
+## 2.3 Text
 
-⸻
+| 용도          | Tailwind |
+| ----------- | -------- |
+| Title       | gray-900 |
+| Body        | gray-700 |
+| Description | gray-500 |
+| Disabled    | gray-400 |
 
-## 6. 반응형 브레이크포인트 (Breakpoints)
+---
 
-$breakpoints: (
-  'mobile': 320px,
-  'tablet': 768px,
-  'desktop': 1024px,
-  'wide': 1440px
-);
+## 2.4 Button
 
-| 디바이스 | 컬럼 수 | 폰트 크기  | 이미지 크기  |
-|----------|---------|------------|--------------|
-| mobile   | 1       | 14~16px    | 100% 너비    |
-| tablet   | 2       | 16~18px    | 50% 너비     |
-| desktop  | 3       | 18~20px    | 33% 너비     |
-| wide     | 4       | 20px 이상  | 25% 너비     |
+| 상태        | 클래스                               |
+| --------- | --------------------------------- |
+| Primary   | `bg-rose-500 text-white`          |
+| Hover     | `hover:bg-rose-600`               |
+| Secondary | `bg-white border border-gray-300` |
+| Disabled  | `bg-gray-200 text-gray-400`       |
 
+---
+
+## Tailwind 변수 예시
+
+```js
+colors: {
+  primary: "#FF385C",
+  secondary: "#F7F7F7",
+  accent: "#00A699",
+  surface: "#FFFFFF",
+  border: "#E5E7EB",
+  text: "#1F2937",
+}
+```
+
+---
+
+# 3. 페이지 구현 가이드 (Page Implementations)
+
+## 3.1 Home (/)
+
+### 레이아웃
+
+```
+Header
+
+Hero
+
+Category Filter
+
+Hobby Grid
+
+Footer
+```
+
+---
+
+### Hero
+
+구성
+
+* 제목
+* 설명
+
+Tailwind
+
+```html
+<section class="py-24 text-center">
+```
+
+제목
+
+```html
+text-5xl font-bold
+```
+
+설명
+
+```html
+text-gray-500 mt-4
+```
+
+---
+
+### Category Filter
+
+Airbnb Category UI 참고
+
+```
+운동형
+
+지능형
+
+예술형
+```
+
+Tailwind
+
+```html
+flex gap-4 justify-center
+```
+
+선택 상태
+
+```html
+bg-black
+text-white
+```
+
+비선택
+
+```html
+bg-white
+hover:bg-gray-100
+```
+
+---
+
+### Hobby Grid
+
+```html
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+xl:grid-cols-4
+gap-8
+```
+
+---
+
+## 3.2 Category Page
+
+상단
+
+```
+카테고리명
+
+간단 소개
+```
+
+본문
+
+```
+Grid
+
+취미 카드만 표시
+```
+
+회원일 경우
+
+카드 우측 상단
+
+```
+Bookmark
+```
+
+노출
+
+---
+
+## 3.3 Login
+
+구성
+
+```
+Logo
+
+Login Card
+
+Footer
+```
+
+Card
+
+```html
+max-w-md
+mx-auto
+rounded-2xl
+shadow-lg
+```
+
+입력창
+
+```html
+rounded-xl
+border
+```
+
+---
+
+## 3.4 Signup
+
+Login과 동일
+
+추가
+
+```
+비밀번호 확인
+
+약관 동의
+```
+
+---
+
+## 3.5 MyPage
+
+```
+Bookmark List
+
+Statistics
+
+Footer
+```
+
+상단
+
+```
+내가 저장한 취미
+```
+
+하단
+
+```
+Pie Chart
+
+또는
+
+Bar Chart
+```
+
+---
+
+# 4. 레이아웃 컴포넌트 (Layout Components)
+
+## 4.1 Header
+
+높이
+
+```
+72px
+```
+
+구성
+
+```
+Logo
+
+Category Menu
+
+Auth Buttons
+```
+
+Tailwind
+
+```html
+sticky
+top-0
+bg-white
+border-b
+```
+
+---
+
+## 4.2 Footer
+
+구성
+
+```
+HobbyFind
+
+Copyright
+```
+
+Tailwind
+
+```html
+py-10
+text-center
+text-gray-500
+```
+
+---
+
+## 4.3 Card
+
+```
+Image Area (선택 사항 없이 여백 영역)
+
+취미명
+
+카테고리
+
+Bookmark
+```
+
+스타일
+
+```html
+rounded-2xl
+border
+shadow-sm
+hover:shadow-lg
+transition
+```
+
+---
+
+## 4.4 Grid
+
+Desktop
+
+```
+4 Columns
+```
+
+Tablet
+
+```
+2 Columns
+```
+
+Mobile
+
+```
+1 Column
+```
+
+---
+
+## 4.5 Category Filter
+
+스타일
+
+```html
+rounded-full
+border
+px-5
+py-2
+```
+
+Hover
+
+```html
+bg-gray-100
+```
+
+Selected
+
+```html
+bg-black
+text-white
+```
+
+---
+
+# 5. 상호작용 패턴 (Interaction Patterns)
+
+## Button
+
+Hover
+
+```css
+transition-all
+duration-200
+```
+
+Pressed
+
+```css
+scale-95
+```
+
+---
+
+## Category Filter
+
+Hover
+
+```
+Background Fade
+```
+
+Selected
+
+```
+Black Fill
+
+White Text
+```
+
+Transition
+
+```
+200ms
+```
+
+---
+
+## Hobby Card
+
+Hover
+
+```
+Shadow 증가
+
+살짝 확대
+
+scale-105
+```
+
+Tailwind
+
+```html
+hover:shadow-xl
+hover:scale-[1.02]
+transition
+```
+
+---
+
+## Bookmark
+
+기본
+
+```
+Outline
+```
+
+선택
+
+```
+Rose Color Fill
+```
+
+Transition
+
+```
+opacity
+
+scale
+```
+
+---
+
+## 페이지 전환
+
+Next.js Route Transition
+
+```
+Fade
+
+150~250ms
+```
+
+---
+
+## 모바일
+
+카드
+
+```
+Touch Feedback
+```
+
+버튼
+
+```
+44px 이상
+```
+
+필터
+
+```
+가로 스크롤 허용
+```
+
+```html
+overflow-x-auto
+```
+
+---
+
+## 데스크톱
+
+Hover 효과 적극 활용
+
+```
+Card
+
+Button
+
+Filter
+```
+
+마우스 Cursor
+
+```
+pointer
+```
+
+---
+
+# 6. 반응형 브레이크포인트 (Breakpoints)
+
+| 해상도         | Tailwind       | 레이아웃             |
+| ----------- | -------------- | ---------------- |
+| Mobile      | `<640px`       | 1열 카드, 필터 가로 스크롤 |
+| Small       | `sm (640px)`   | 2열 카드            |
+| Medium      | `md (768px)`   | 2~3열 카드          |
+| Large       | `lg (1024px)`  | 3열 카드            |
+| Extra Large | `xl (1280px)`  | 4열 카드            |
+| 2XL         | `2xl (1536px)` | 4열 카드 + 넓은 여백    |
+
+### 반응형 컨테이너
+
+```html
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+```
+
+### 카드 그리드
+
+```html
+<div
+  class="
+    grid
+    grid-cols-1
+    sm:grid-cols-2
+    md:grid-cols-2
+    lg:grid-cols-3
+    xl:grid-cols-4
+    gap-6
+  "
+>
+```
+
+---
+
+# 공통 디자인 토큰
+
+| 항목                 | 권장 값                                     |
+| ------------------ | ---------------------------------------- |
+| Border Radius      | `rounded-xl` ~ `rounded-2xl`             |
+| Shadow             | `shadow-sm`, `hover:shadow-lg`           |
+| Transition         | `duration-200 ease-in-out`               |
+| Container          | `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` |
+| Card Padding       | `p-5` ~ `p-6`                            |
+| Section Spacing    | `py-16` ~ `py-24`                        |
+| Grid Gap           | `gap-6` ~ `gap-8`                        |
+| Button Height      | `h-11` 이상                                |
+| Interactive Target | 최소 `44 × 44px`                           |
+
+## 고정 데이터 및 범위
+
+* 취미 목록은 **운동형(조깅/러닝, 요가, 수영, 자전거, 클라이밍, 댄스)**, **지능형(독서, 퍼즐, 체스, 프로그래밍, 외국어 학습, 사진 촬영)**, **예술형(그림 그리기, 악기 연주, 요리, 서예, 도자기 만들기, 정원 가꾸기)**의 총 18개로 고정한다.
+* 디자인은 해당 범위의 기능(탐색, 로그인/회원가입, 북마크, 마이페이지)에 맞춰 구성하며, 추가 기능을 전제로 하는 UI는 포함하지 않는다.

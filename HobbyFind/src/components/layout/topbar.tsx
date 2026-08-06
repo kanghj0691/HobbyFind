@@ -1,22 +1,26 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { ChevronDown, User, Menu, LogOut, Heart } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Heart, LogOut, Menu, User } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-
-const categories = [
-  { id: 'sports', name: '운동형', href: '/category/sports' },
-  { id: 'intelligence', name: '지능형', href: '/category/intelligence' },
-  { id: 'art', name: '예술형', href: '/category/art' },
-];
+import { CATEGORIES } from '@/constants/categories';
+import { cn } from '@/lib/utils';
 
 export function Topbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -28,7 +32,7 @@ export function Topbar() {
       });
       router.push('/');
       router.refresh();
-    } catch (error) {
+    } catch {
       toast({
         title: '로그아웃 실패',
         description: '로그아웃 중 오류가 발생했습니다.',
@@ -38,107 +42,70 @@ export function Topbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border-gray shadow-sm">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center">
-            <Heart className="w-4 h-4 text-white" />
+    <header className="sticky top-0 z-50 h-[72px] border-b border-border bg-white">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+            <Heart className="h-4 w-4 text-white" />
           </div>
-          <span className="text-xl font-bold text-neutral-dark">
-            HobbyFind
-          </span>
+          <span className="text-xl font-bold text-title">HobbyFind</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          {/* Category Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                className="flex items-center space-x-1 text-neutral-dark hover:bg-neutral-light"
-              >
-                <span>카테고리</span>
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              {categories.map((category) => (
-                <DropdownMenuItem key={category.id} asChild>
-                  <Link href={category.href}>{category.name}</Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <nav className="hidden items-center gap-6 md:flex">
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category.id}
+              href={category.href}
+              className={cn(
+                'text-sm font-medium transition-colors duration-200',
+                pathname === category.href
+                  ? 'text-title'
+                  : 'text-body hover:text-title'
+              )}
+            >
+              {category.name}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Auth Buttons */}
+        <div className="hidden items-center gap-2 md:flex">
           {status === 'loading' ? (
-            <div className="flex items-center space-x-2">
-              <div className="w-20 h-8 bg-gray-200 rounded animate-pulse"></div>
-            </div>
+            <div className="h-9 w-24 animate-pulse rounded-md bg-muted" />
           ) : session ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center space-x-1 text-neutral-dark hover:bg-neutral-light"
-                >
-                  <User className="w-4 h-4" />
-                  <span>{session.user.name || '마이페이지'}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem asChild>
-                  <Link href="/mypage" className="flex items-center space-x-2">
-                    <User className="w-4 h-4" />
-                    <span>마이페이지</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem 
-                  onClick={handleLogout}
-                  className="flex items-center space-x-2 text-red-600 hover:text-red-700"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>로그아웃</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <div className="flex items-center space-x-2">
-              <Button 
-                variant="ghost" 
-                asChild
-                className="text-neutral-dark hover:bg-neutral-light"
+            <>
+              <Button variant="ghost" asChild className="text-body hover:bg-muted">
+                <Link href="/mypage">마이페이지</Link>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="gap-2 border-border text-body"
               >
+                <LogOut className="h-4 w-4" />
+                로그아웃
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" asChild className="text-body hover:bg-muted">
                 <Link href="/login">로그인</Link>
               </Button>
-              <Button 
-                asChild
-                className="bg-brand-red hover:bg-brand-red/90 text-white"
-              >
+              <Button asChild className="bg-primary text-primary-foreground hover:bg-primary-hover">
                 <Link href="/signup">회원가입</Link>
               </Button>
-            </div>
+            </>
           )}
         </div>
 
-        {/* Mobile Menu */}
         <div className="md:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-neutral-dark hover:bg-neutral-light"
-              >
-                <Menu className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="text-body">
+                <Menu className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              {categories.map((category) => (
+              {CATEGORIES.map((category) => (
                 <DropdownMenuItem key={category.id} asChild>
                   <Link href={category.href}>{category.name}</Link>
                 </DropdownMenuItem>
@@ -146,29 +113,33 @@ export function Topbar() {
               <DropdownMenuSeparator />
               {status === 'loading' ? (
                 <DropdownMenuItem disabled>
-                  <div className="w-full h-4 bg-gray-200 rounded animate-pulse"></div>
+                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
                 </DropdownMenuItem>
               ) : session ? (
                 <>
                   <DropdownMenuItem asChild>
-                    <Link href="/mypage" className="flex items-center space-x-2 w-full">
-                      <User className="w-4 h-4" />
-                      <span>마이페이지</span>
+                    <Link href="/mypage" className="flex items-center gap-2">
+                      <User className="h-4 w-4" />
+                      마이페이지
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 text-red-600 hover:text-red-700"
+                    className="text-destructive focus:text-destructive"
                   >
-                    <LogOut className="w-4 h-4" />
-                    <span>로그아웃</span>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    로그아웃
                   </DropdownMenuItem>
                 </>
               ) : (
-                <div className="flex flex-col space-y-2 w-full p-2">
-                  <Link href="/login" className="w-full text-left">로그인</Link>
-                  <Link href="/signup" className="w-full text-left">회원가입</Link>
-                </div>
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/login">로그인</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/signup">회원가입</Link>
+                  </DropdownMenuItem>
+                </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>

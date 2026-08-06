@@ -14,6 +14,7 @@ const config = {
     },
     extend: {
       colors: {
+        // shadcn/ui semantic tokens (CSS variables)
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -22,6 +23,7 @@ const config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          hover: 'hsl(var(--primary-hover))',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
@@ -51,15 +53,28 @@ const config = {
           DEFAULT: 'hsl(var(--success))',
           foreground: 'hsl(var(--success-foreground))',
         },
-        // 디자인 문서 기반 추가 컬러
-        'brand-red': '#FF385C', // Primary
-        'brand-teal': '#008489', // Secondary
-        'brand-gold': '#FFD700', // Accent
-        'neutral-light': '#F7F7F7', // Neutral Light
-        'neutral-dark': '#222222', // Neutral Dark
-        'border-gray': '#E5E5E5', // Border Gray
-        'success-green': '#4CAF50', // Success
-        'error-red': '#F44336', // Error
+        // Design.md §2 — Brand
+        brand: {
+          primary: '#FF385C',
+          'primary-hover': '#E11D48',
+          secondary: '#F7F7F7',
+          accent: '#00A699',
+        },
+        // Design.md §2 — Neutral
+        surface: '#FFFFFF',
+        divider: '#F3F4F6',
+        // Design.md §2 — Text
+        title: '#111827',
+        body: '#374151',
+        description: '#6B7280',
+        disabled: '#9CA3AF',
+        // Legacy aliases (기존 컴포넌트 호환)
+        'brand-red': '#FF385C',
+        'brand-teal': '#00A699',
+        'brand-gold': '#FFD700',
+        'neutral-light': '#F7F7F7',
+        'neutral-dark': '#111827',
+        'border-gray': '#E5E7EB',
       },
       borderRadius: {
         lg: 'var(--radius)',
